@@ -1,0 +1,23 @@
+{
+  "name": "analog-slack",
+  "private": true,
+  "engines": {
+    "node": ">=22.12.0",
+    "pnpm": ">=10"
+  },
+  "scripts": {
+    "build:shared": "pnpm --filter @app/shared build",
+    "dev": "pnpm build:shared && pnpm --parallel -r dev",
+    "build": "pnpm -r build",
+    "lint": "pnpm build:shared && pnpm -r lint",
+    "typecheck": "pnpm build:shared && pnpm -r typecheck",
+    "test": "pnpm build:shared && pnpm -r test",
+    "format": "prettier --write .",
+    "prepare": "husky"
+  },
+  "devDependencies": {
+    "husky": "9.1.7",
+    "lint-staged": "16.4.0",
+    "prettier": "3.9.10"
+  }
+}
