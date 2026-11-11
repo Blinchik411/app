@@ -2,26 +2,32 @@
 
 import { AlertCircle, Loader2, RefreshCw, WifiOff } from 'lucide-react';
 
-import { connectSocket } from '@/shared/api/socket';
 import { cn } from '@/shared/lib';
 
-import { useSocketError, useSocketStatus } from '../model/use-socket-store';
+import { useSocketConnection } from '../model/use-socket-connection';
+import { useSocketError, useSocketStatus, useSocketStore } from '../model/use-socket-store';
 
 export interface ConnectionStatusBannerProps {
   className?: string;
+  autoConnect?: boolean;
 }
 
-export function ConnectionStatusBanner({ className }: ConnectionStatusBannerProps) {
+export function ConnectionStatusBanner({
+  className,
+  autoConnect = false,
+}: ConnectionStatusBannerProps) {
+  const { connect } = useSocketConnection({ autoConnect });
   const status = useSocketStatus();
   const lastError = useSocketError();
+
+  const handleRetry = () => {
+    useSocketStore.getState().setStatus('connecting');
+    connect();
+  };
 
   if (status === 'connected') {
     return null;
   }
-
-  const handleRetry = () => {
-    connectSocket();
-  };
 
   if (status === 'connecting') {
     return (

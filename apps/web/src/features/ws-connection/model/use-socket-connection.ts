@@ -7,6 +7,7 @@ import {
   disconnectSocket,
   type PresencePayload,
   socket,
+  SOCKET_EVENTS,
   type TypingPayload,
 } from '@/shared/api/socket';
 
@@ -95,8 +96,8 @@ export function useSocketConnection({
     socket.on('connect', handleConnect);
     socket.on('disconnect', handleDisconnect);
     socket.on('connect_error', handleConnectError);
-    socket.on('presence:update', handlePresenceUpdate);
-    socket.on('typing:update', handleTypingUpdate);
+    socket.on(SOCKET_EVENTS.PRESENCE_UPDATE, handlePresenceUpdate);
+    socket.on(SOCKET_EVENTS.TYPING_UPDATE, handleTypingUpdate);
 
     socket.io.on('reconnect_attempt', handleReconnectAttempt);
     socket.io.on('reconnect', handleReconnect);
@@ -115,8 +116,8 @@ export function useSocketConnection({
       socket.off('connect', handleConnect);
       socket.off('disconnect', handleDisconnect);
       socket.off('connect_error', handleConnectError);
-      socket.off('presence:update', handlePresenceUpdate);
-      socket.off('typing:update', handleTypingUpdate);
+      socket.off(SOCKET_EVENTS.PRESENCE_UPDATE, handlePresenceUpdate);
+      socket.off(SOCKET_EVENTS.TYPING_UPDATE, handleTypingUpdate);
 
       socket.io.off('reconnect_attempt', handleReconnectAttempt);
       socket.io.off('reconnect', handleReconnect);
